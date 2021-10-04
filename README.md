@@ -1,4 +1,4 @@
-# slb_task
+# SLB task
 Proof of concept for ApacheAirflow control via REST API with user authentication via JWT tokens.
 
 ## Requirements
