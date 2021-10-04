@@ -37,8 +37,6 @@ async def create_user(username: str, password: str, role: str):
 
 @auth.get('/users_list')
 async def get_users():
-    """
-    """
     return users
 
 @auth.post('/create_token', response_model=Token)
@@ -48,7 +46,6 @@ async def create_token(form: OAuth2PasswordRequestForm=Depends()):
     auth = UserAuthentification(users)
     user = auth.authenticate_user(form.username, form.password)
     if user[0]:
-        # user[1].update({"exp": datetime.utcnow() + timedelta(3)})
         token = jwt.encode(user[1], SECRET_KEY, ALGORITHM)
         return {"access_token": token}
     raise HTTPException(
@@ -61,7 +58,7 @@ async def create_token(form: OAuth2PasswordRequestForm=Depends()):
 async def get_list_dags(token: str=Depends(get_current_active_user)):
     """
     """
-    url = "http://airflow-webserver:8080/api/v1/dags"
+    url = "{WEBSERVER_URL}/api/v1/dags"
     resp = requests.get(
         url,
         auth=HTTPBasicAuth(AIR_LOGIN, AIR_PASSWORD)
@@ -104,8 +101,6 @@ async def submit_new_dag(
     file: UploadFile = File(...),
     token: str=Depends(get_current_active_user)
     ):
-    """
-    """
     path = f"opt/airflow/dags/{file.filename}"
     with open(path, "wb+") as file_object:
         file_object.write(file.file.read())
