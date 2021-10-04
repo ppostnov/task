@@ -87,7 +87,7 @@ async def trigger_dag(
         }
         resp = requests.post(
             url,
-            auth=HTTPBasicAuth('airflow', 'airflow'),
+            auth=HTTPBasicAuth(AIR_LOGIN, AIR_PASSWORD),
             data=json.dumps(body.parameters),
             headers=headers
         )
